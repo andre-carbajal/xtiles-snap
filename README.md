@@ -1,6 +1,6 @@
-# Xtiles-snap
+# Xtiles-linux
 
-A snap of [Xtiles](https://xtiles.app/)
+A linux application of [Xtiles](https://xtiles.app/)
 
 ```
 waiting
@@ -29,7 +29,7 @@ npm run deb
 To install the application, you must first clone the repository:
 
 ```
-git clone https://github.com/andre-carbajal/xtiles-snap
+git clone https://github.com/andre-carbajal/xtiles-linux
 ```
 Then, navigate to the project directory:
 ```

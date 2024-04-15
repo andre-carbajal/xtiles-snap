@@ -1,5 +1,5 @@
 {
-  "name": "xiles-snap",
+  "name": "xtiles-linux",
   "version": "1.0.0",
   "description": "xTiles application on Linux",
   "main": "main.js",
@@ -31,7 +31,7 @@
     "name": "anvian",
     "email": "carbajalvargasandre@gmail.com"
   },
-  "homepage": "https://github.com/andre-carbajal/xtiles-snap",
+  "homepage": "https://github.com/andre-carbajal/xtiles-linux",
   "license": "ISC",
   "devDependencies": {
     "electron": "29.3.0",
