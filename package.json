@@ -1,0 +1,40 @@
+{
+  "name": "xiles-snap",
+  "version": "1.0.0",
+  "description": "xTiles application on Linux",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "snap": "electron-builder --linux snap",
+    "deb" : "electron-builder --linux deb"
+  },
+  "build": {
+    "productName": "xTiles",
+    "linux": {
+      "target": [
+        "snap",
+        "deb"
+      ],
+      "category": "Utility",
+      "icon": "icon.png"
+    }
+  },
+  "keywords": [
+    "xtiles",
+    "electron",
+    "linux",
+    "deb",
+    "snap",
+    "snapcraft"
+  ],
+  "author": {
+    "name": "anvian",
+    "email": "carbajalvargasandre@gmail.com"
+  },
+  "homepage": "https://github.com/andre-carbajal/xtiles-snap",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "29.3.0",
+    "electron-builder": "24.13.3"
+  }
+}
