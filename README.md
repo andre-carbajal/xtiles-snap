@@ -1,4 +1,4 @@
-# Xtiles-linux
+# Xtiles-snap
 
 A linux application of [Xtiles](https://xtiles.app/)
 
