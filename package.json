@@ -32,6 +32,9 @@
     "email": "carbajalvargasandre@gmail.com"
   },
   "homepage": "https://github.com/andre-carbajal/xtiles-snap",
+  "bugs": {
+    "url": "https://github.com/andre-carbajal/xtiles-snap/issues"
+  },
   "license": "ISC",
   "devDependencies": {
     "electron": "29.3.0",
