@@ -1,7 +1,7 @@
 {
   "name": "xtiles-snap",
   "version": "1.0.0",
-  "description": "xTiles application on Linux",
+  "description": "xTiles application for Linux",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
