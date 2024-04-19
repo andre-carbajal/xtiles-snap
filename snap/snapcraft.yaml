@@ -1,0 +1,14 @@
+name: xtiles-snap
+base: core22
+version: '1.0.1'
+summary: xTiles application for Linux
+description: |
+  Unofficial xTiles application for Linux
+
+grade: stable
+confinement: strict
+
+parts:
+  my-part:
+    plugin: nil
+    
