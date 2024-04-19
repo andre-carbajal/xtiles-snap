@@ -9,7 +9,7 @@
     "deb" : "electron-builder --linux deb"
   },
   "build": {
-    "productName": "xTiles",
+    "productName": "xtiles-snap",
     "linux": {
       "target": [
         "snap",
