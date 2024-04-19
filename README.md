@@ -1,9 +1,12 @@
 # Xtiles-snap
 
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/xtiles-snap)
+
 A linux application of [Xtiles](https://xtiles.app/)
 
 ```
-waiting
+sudo snap install xtiles-snap
 ```
 
 # Scripts
