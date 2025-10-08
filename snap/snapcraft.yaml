@@ -1,6 +1,6 @@
 name: xtiles-snap
 base: core22
-version: '1.0.1'
+version: '1.0.2'
 summary: xTiles application for Linux
 description: |
   Unofficial xTiles application for Linux
