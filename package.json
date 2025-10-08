@@ -9,14 +9,31 @@
     "deb" : "electron-builder --linux deb"
   },
   "build": {
-    "productName": "xtiles-snap",
+    "productName": "xTiles",
+    "appId": "com.xtiles.snap",
     "linux": {
       "target": [
-        "snap",
-        "deb"
+        {
+          "target": "snap",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64", "arm64"]
+        }
       ],
       "category": "Utility",
-      "icon": "icon.png"
+      "desktop": {
+        "Name": "xTiles",
+        "Comment": "xTiles application for Linux",
+        "Categories": "Utility;Office;"
+      }
+    },
+    "snap": {
+      "confinement": "strict",
+      "grade": "stable",
+      "summary": "xTiles application for Linux",
+      "description": "Unofficial xTiles application for Linux"
     }
   },
   "keywords": [

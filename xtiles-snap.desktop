@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=xTiles
+Comment=xTiles application for Linux
+Exec=xtiles-snap
+Icon=xtiles-snap
+Type=Application
+Categories=Utility;Office;
+StartupWMClass=xtiles-snap
+StartupNotify=true

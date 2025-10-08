@@ -8,7 +8,69 @@ description: |
 grade: stable
 confinement: strict
 
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  xtiles-snap:
+    command: xtiles-snap
+    desktop: usr/share/applications/xtiles-snap.desktop
+    plugs:
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+      - unity7
+      - browser-support
+      - network
+      - gsettings
+      - audio-playback
+      - audio-record
+      - camera
+      - home
+      - removable-media
+      - opengl
+
 parts:
-  my-part:
-    plugin: nil
+  xtiles-snap:
+    plugin: npm
+    source: .
+    npm-include-node: true
+    npm-node-version: "18.20.4"
+    build-packages:
+      - build-essential
+      - libnss3-dev
+      - libatk-bridge2.0-dev
+      - libdrm-dev
+      - libxcomposite-dev
+      - libxdamage-dev
+      - libxrandr-dev
+      - libgbm-dev
+      - libxss-dev
+      - libasound2-dev
+      - libgtk-3-dev
+    stage-packages:
+      - libnss3
+      - libatk-bridge2.0-0
+      - libdrm2
+      - libxcomposite1
+      - libxdamage1
+      - libxrandr2
+      - libgbm1
+      - libxss1
+      - libasound2
+      - libatspi2.0-0
+      - libgtk-3-0
+    override-build: |
+      craftctl default
+      npm install
+      npm run snap
+      mkdir -p $CRAFTCTL_INSTALL
+      cp -r dist/linux-*unpacked/* $CRAFTCTL_INSTALL/
+      mkdir -p $CRAFTCTL_INSTALL/usr/share/applications
+      cp xtiles-snap.desktop $CRAFTCTL_INSTALL/usr/share/applications/
+    organize:
+      'resources/app.asar': 'resources/app.asar'
+      'xtiles-snap': 'xtiles-snap'
     
