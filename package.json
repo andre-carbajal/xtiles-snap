@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "snap": "electron-builder --linux snap",
-    "deb" : "electron-builder --linux deb"
+    "deb": "electron-builder --linux deb"
   },
   "build": {
     "productName": "xTiles",
@@ -15,11 +15,17 @@
       "target": [
         {
           "target": "snap",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         },
         {
           "target": "deb",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         }
       ],
       "category": "Utility",
@@ -54,7 +60,7 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "electron": "29.3.0",
+    "electron": "^38.4.0",
     "electron-builder": "24.13.3"
   }
 }
