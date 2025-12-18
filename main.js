@@ -13,10 +13,15 @@ app.on("ready", () => {
 
   const windowOptions = {
     autoHideMenuBar: true,
+    icon: __dirname + "/build/icons/icon.png",
     webPreferences: {
       spellcheck: false,
     },
   };
+
+  if (process.platform === "darwin") {
+    app.dock.setIcon(__dirname + "/build/icons/icon.png");
+  }
 
   const win = new BrowserWindow(windowOptions);
   win.maximize();
