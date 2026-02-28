@@ -1,6 +1,6 @@
 name: xtiles-snap
 base: core22
-version: "1.0.3"
+version: "1.0.4"
 summary: xTiles application for Linux
 description: |
   Unofficial xTiles application for Linux
@@ -16,6 +16,7 @@ apps:
   xtiles-snap:
     command: xtiles-snap
     desktop: usr/share/applications/xtiles-snap.desktop
+    icon: usr/share/pixmaps/xtiles-snap.png
     plugs:
       - desktop
       - desktop-legacy
@@ -94,6 +95,9 @@ parts:
       # Stage the unpacked app
       mkdir -p "$SNAPCRAFT_PART_INSTALL"
       cp -r dist/linux-*unpacked/* "$SNAPCRAFT_PART_INSTALL/"
+      mkdir -p "$SNAPCRAFT_PART_INSTALL/usr/share/pixmaps"
+      cp build/icons/icon.png "$SNAPCRAFT_PART_INSTALL/usr/share/pixmaps/xtiles-snap.png"
+
       mkdir -p "$SNAPCRAFT_PART_INSTALL/usr/share/applications"
       cp xtiles-snap.desktop "$SNAPCRAFT_PART_INSTALL/usr/share/applications/"
     organize:
