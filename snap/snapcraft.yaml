@@ -7,6 +7,7 @@ description: |
 
 grade: stable
 confinement: strict
+icon: snap/gui/icon.png
 
 architectures:
   - build-on: amd64
@@ -16,7 +17,6 @@ apps:
   xtiles-snap:
     command: xtiles-snap
     desktop: usr/share/applications/xtiles-snap.desktop
-    icon: usr/share/pixmaps/xtiles-snap.png
     plugs:
       - desktop
       - desktop-legacy
