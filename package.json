@@ -28,12 +28,7 @@
           ]
         }
       ],
-      "category": "Utility",
-      "desktop": {
-        "Name": "xTiles",
-        "Comment": "xTiles application for Linux",
-        "Categories": "Utility;Office;"
-      }
+      "category": "Utility"
     },
     "snap": {
       "confinement": "strict",
