@@ -79,11 +79,17 @@ parts:
       fi
       tar -xzf "$CACHE_DIR/$NODE_TARBALL" -C /usr/local --strip-components=1
 
+      # Skip downloading the Electron binary during npm install
+      # (the binary is blocked by the build proxy; electron-builder downloads it separately)
+      export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+
       # Install dependencies (including devDependencies)
       npm install
 
-      # Build the Electron app (electron-builder is in node_modules/.bin)
-      npx electron-builder --linux snap
+      # Build the unpacked Electron app directory
+      # (use --linux dir instead of --linux snap: we're already inside snapcraft,
+      # which will handle the final snap packaging; nested snap builds fail here)
+      npx electron-builder --linux dir
 
       # Stage the unpacked app
       mkdir -p "$SNAPCRAFT_PART_INSTALL"
