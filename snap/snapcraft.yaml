@@ -1,6 +1,6 @@
 name: xtiles-snap
 base: core22
-version: '1.0.2'
+version: "1.0.3"
 summary: xTiles application for Linux
 description: |
   Unofficial xTiles application for Linux
@@ -34,11 +34,10 @@ apps:
 
 parts:
   xtiles-snap:
-    plugin: npm
+    plugin: nil
     source: .
-    npm-include-node: true
-    npm-node-version: "18.20.4"
     build-packages:
+      - curl
       - build-essential
       - libnss3-dev
       - libatk-bridge2.0-dev
@@ -63,14 +62,34 @@ parts:
       - libatspi2.0-0
       - libgtk-3-0
     override-build: |
-      craftctl default
+      # Determine architecture
+      ARCH=$(uname -m)
+      if [ "$ARCH" = "aarch64" ]; then
+        NODE_ARCH="arm64"
+      else
+        NODE_ARCH="x64"
+      fi
+      NODE_VERSION="22.14.0"
+      CACHE_DIR="$SNAPCRAFT_PART_BUILD/../cache"
+      mkdir -p "$CACHE_DIR"
+      NODE_TARBALL="node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.gz"
+      if [ ! -f "$CACHE_DIR/$NODE_TARBALL" ]; then
+        curl --retry 5 -s "https://nodejs.org/dist/v${NODE_VERSION}/$NODE_TARBALL" \
+          -o "$CACHE_DIR/$NODE_TARBALL"
+      fi
+      tar -xzf "$CACHE_DIR/$NODE_TARBALL" -C /usr/local --strip-components=1
+
+      # Install dependencies (including devDependencies)
       npm install
-      npm run snap
-      mkdir -p $CRAFTCTL_INSTALL
-      cp -r dist/linux-*unpacked/* $CRAFTCTL_INSTALL/
-      mkdir -p $CRAFTCTL_INSTALL/usr/share/applications
-      cp xtiles-snap.desktop $CRAFTCTL_INSTALL/usr/share/applications/
+
+      # Build the Electron app (electron-builder is in node_modules/.bin)
+      npx electron-builder --linux snap
+
+      # Stage the unpacked app
+      mkdir -p "$SNAPCRAFT_PART_INSTALL"
+      cp -r dist/linux-*unpacked/* "$SNAPCRAFT_PART_INSTALL/"
+      mkdir -p "$SNAPCRAFT_PART_INSTALL/usr/share/applications"
+      cp xtiles-snap.desktop "$SNAPCRAFT_PART_INSTALL/usr/share/applications/"
     organize:
-      'resources/app.asar': 'resources/app.asar'
-      'xtiles-snap': 'xtiles-snap'
-    
+      "resources/app.asar": "resources/app.asar"
+      "xtiles-snap": "xtiles-snap"
