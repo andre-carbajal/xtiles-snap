@@ -1,0 +1,27 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "timezone": "America/Lima",
+  "schedule": [
+    "before 5am on saturday"
+  ],
+  "packageRules": [
+    {
+      "description": "Group Electron updates into a single Pull Request",
+      "matchPackagePatterns": [
+        "^electron"
+      ],
+      "groupName": "Electron updates"
+    },
+    {
+      "description": "Automerge minor and patch updates",
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    }
+  ]
+}
