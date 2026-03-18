@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -25,7 +27,8 @@ jobs:
         run: npm run lint
 
       - name: Build Test (DEB)
-        run: npm run deb
+        # Usamos --publish never para que no intente crear un release durante los tests
+        run: npx electron-builder --linux deb --x64 --publish never
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -63,9 +66,10 @@ jobs:
         run: npm install
 
       - name: Build Snap and DEB (${{ matrix.arch }})
+        # También usamos --publish never aquí porque el release lo crea la acción softprops/action-gh-release más adelante
         run: |
-          npx electron-builder --linux snap --${{ matrix.arch }}
-          npx electron-builder --linux deb --${{ matrix.arch }}
+          npx electron-builder --linux snap --${{ matrix.arch }} --publish never
+          npx electron-builder --linux deb --${{ matrix.arch }} --publish never
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
