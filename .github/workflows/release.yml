@@ -8,44 +8,22 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/test.yml
     permissions:
       contents: read
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Linting (ESLint)
-        run: npm run lint
-
-      - name: Build Test (DEB)
-        # Usamos --publish never para que no intente crear un release durante los tests
-        run: npx electron-builder --linux deb --x64 --publish never
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Run Smoke Tests
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test
 
   release:
     needs: test
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
     strategy:
       matrix:
-        arch: [x64, arm64]
+        include:
+          - arch: x64
+            os: ubuntu-latest
+          - arch: arm64
+            os: ubuntu-24.04-arm
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
@@ -66,7 +44,6 @@ jobs:
         run: npm install
 
       - name: Build Snap and DEB (${{ matrix.arch }})
-        # También usamos --publish never aquí porque el release lo crea la acción softprops/action-gh-release más adelante
         run: |
           npx electron-builder --linux snap --${{ matrix.arch }} --publish never
           npx electron-builder --linux deb --${{ matrix.arch }} --publish never
