@@ -31,14 +31,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check Architecture
-        run: uname -m
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+      - name: Update APT Cache
+        run: sudo apt-get update
 
       - name: Install Snapcraft
         run: sudo snap install snapcraft --classic
@@ -53,8 +47,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SNAPCRAFT_BUILD_ENVIRONMENT: host
-          USE_SNAPCRAFT_DESTRUCTIVE_MODE: true
-          SNAPCRAFT_DESTRUCTIVE_MODE: true
+          SNAPCRAFT_HAS_CASCADING_RELEASE: 'false'
+          USE_SNAPCRAFT_DESTRUCTIVE_MODE: 'true'
 
       - name: Extract Release Notes
         if: matrix.arch == 'x64'
