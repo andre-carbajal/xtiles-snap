@@ -70,7 +70,7 @@ parts:
       else
         NODE_ARCH="x64"
       fi
-      NODE_VERSION="22.14.0"
+      NODE_VERSION="24.14.0"
       CACHE_DIR="$SNAPCRAFT_PART_BUILD/../cache"
       mkdir -p "$CACHE_DIR"
       NODE_TARBALL="node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.gz"

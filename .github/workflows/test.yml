@@ -1,0 +1,37 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Linting (ESLint)
+        run: npm run lint
+
+      - name: Build Test (DEB)
+        run: npm run deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Playwright Browsers (for Smoke Test)
+        run: npx playwright install --with-deps
+
+      - name: Run Smoke Tests (Playwright)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test
