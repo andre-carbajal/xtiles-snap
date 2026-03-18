@@ -7,7 +7,36 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Linting (ESLint)
+        run: npm run lint
+
+      - name: Build Test (DEB)
+        run: npm run deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Smoke Tests
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test
+
   release:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,6 +56,9 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Install Snapcraft
+        run: sudo snap install snapcraft --classic
+
       - name: Install dependencies
         run: npm install
 
@@ -38,7 +70,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract Release Notes
-        if: matrix.arch == 'x64' # Solo extraer una vez
+        if: matrix.arch == 'x64'
         id: release_notes
         run: |
           TAG_VERSION=${GITHUB_REF#refs/tags/}

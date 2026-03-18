@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 test('launch app and verify title/url', async () => {
+  test.setTimeout(60000); // 1 minute timeout
   // Determine the path to the executable or source
   let executablePath;
   const linuxPath = path.join(__dirname, '../dist/linux-unpacked/xTiles');
@@ -15,20 +16,38 @@ test('launch app and verify title/url', async () => {
     executablePath = winPath;
   }
 
+  const launchOptions = {
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-gpu',
+      '--disable-dev-shm-usage'
+    ]
+  };
+
   let electronApp;
-  if (executablePath) {
-    console.log(`Testing compiled app at: ${executablePath}`);
-    electronApp = await electron.launch({ executablePath });
-  } else {
-    console.log('Testing app from source (main.js)');
-    electronApp = await electron.launch({ args: [path.join(__dirname, '../main.js')] });
+  try {
+    if (executablePath) {
+      console.log(`Testing compiled app at: ${executablePath}`);
+      launchOptions.executablePath = executablePath;
+      electronApp = await electron.launch(launchOptions);
+    } else {
+      console.log('Testing app from source (main.js)');
+      launchOptions.args.push(path.join(__dirname, '../main.js'));
+      electronApp = await electron.launch(launchOptions);
+    }
+  } catch (error) {
+    console.error('Failed to launch Electron:', error);
+    throw error;
   }
 
   // Wait for the first window to open
+  console.log('Waiting for first window...');
   const window = await electronApp.firstWindow();
   
   // Verify the URL
   const url = await window.url();
+  console.log(`Current window URL: ${url}`);
   expect(url).toContain('xtiles.app');
   expect(url).toContain('/user/login');
 

@@ -24,7 +24,10 @@ app.on("ready", () => {
   }
 
   const win = new BrowserWindow(windowOptions);
-  win.maximize();
+  
+  if (process.env.CI !== 'true') {
+    win.maximize();
+  }
 
   session.defaultSession.setUserAgent(USER_AGENT);
 
