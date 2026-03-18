@@ -60,12 +60,10 @@ jobs:
           cat release_notes.md
 
       - name: Upload to Snap Store
-        uses: snapcore/action-publish@v1
+        run: |
+          snapcraft upload dist/*.snap --release stable
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
-        with:
-          snap: dist/*.snap
-          release: stable
 
       - name: Create/Update GitHub Release
         uses: softprops/action-gh-release@v2
