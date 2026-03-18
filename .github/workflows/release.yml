@@ -7,13 +7,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Llamamos al flujo de tests definido en test.yml
   test:
     uses: ./.github/workflows/test.yml
     permissions:
       contents: read
 
-  # El job de release solo empieza si los tests pasaron
   release:
     needs: test
     strategy:
@@ -22,8 +20,6 @@ jobs:
           - arch: x64
             os: ubuntu-latest
           - arch: arm64
-            # Nota: Asegúrate de que tu repo tenga habilitados los runners de ARM. 
-            # Si 'ubuntu-24.04-arm' no funciona, prueba con 'ubuntu-24.04-arm64'
             os: ubuntu-24.04-arm
     runs-on: ${{ matrix.os }}
     permissions:
@@ -34,6 +30,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Check Architecture
+        run: uname -m
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -53,8 +52,9 @@ jobs:
           npx electron-builder --linux deb --${{ matrix.arch }} --publish never
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Esta es la línea clave para solucionar el error de Multipass
+          SNAPCRAFT_BUILD_ENVIRONMENT: host
           USE_SNAPCRAFT_DESTRUCTIVE_MODE: true
+          SNAPCRAFT_DESTRUCTIVE_MODE: true
 
       - name: Extract Release Notes
         if: matrix.arch == 'x64'
