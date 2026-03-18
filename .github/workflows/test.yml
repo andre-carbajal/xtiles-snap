@@ -3,10 +3,9 @@ name: Tests
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*' ] # Añadimos tags para que también corra solo al subir un tag
   pull_request:
     branches: [ main ]
-  workflow_call: # Esto permite que otros flujos lo llamen
+  workflow_call:
 
 jobs:
   test:
