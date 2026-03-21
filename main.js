@@ -12,6 +12,7 @@ app.on("ready", () => {
   });
 
   const windowOptions = {
+    title: "xTiles",
     autoHideMenuBar: true,
     icon: __dirname + "/build/icons/icon.png",
     webPreferences: {

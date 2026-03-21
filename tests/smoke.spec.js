@@ -52,6 +52,7 @@ test('launch app and verify title/url', async () => {
   expect(url).toContain('/user/login');
 
   // Verify the window title
+  await expect(window).toHaveTitle(/.+/, { timeout: 30000 });
   const title = await window.title();
   expect(title).toBeTruthy();
 
