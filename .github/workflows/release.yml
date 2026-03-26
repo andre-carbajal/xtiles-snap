@@ -31,11 +31,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Update APT Cache
-        run: sudo apt-get update
+      - name: Optimize System
+        run: |
+          sudo apt-get update -yq
+          sudo apt-get install -yq snapd
 
       - name: Install Snapcraft
-        run: sudo snap install snapcraft --classic
+        run: |
+          # Wait for snapd to be fully ready
+          sudo snap wait system seed.loaded
+          # Retry installation if it fails due to network/snapd issues
+          for i in {1..3}; do
+            sudo snap install snapcraft --classic && break || sleep 15
+          done
 
       - name: Install dependencies
         run: npm install
