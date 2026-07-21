@@ -59,7 +59,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.58.2",
-    "electron": "^42.0.0",
+    "electron": "^43.0.0",
     "electron-builder": "^26.8.1",
     "eslint": "^10.0.3",
     "globals": "^17.4.0",
