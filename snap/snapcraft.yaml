@@ -1,6 +1,6 @@
 name: xtiles-snap
 base: core22
-version: "1.0.10"
+version: "__VERSION__"
 summary: xTiles application for Linux
 description: |
   Unofficial xTiles application for Linux
@@ -10,12 +10,11 @@ confinement: strict
 icon: snap/gui/icon.png
 
 architectures:
-  - build-on: amd64
-  - build-on: arm64
+  - build-on: __ARCH__
 
 apps:
   xtiles-snap:
-    command: xtiles-snap
+    command: xtiles-snap --no-sandbox
     desktop: usr/share/applications/xtiles-snap.desktop
     plugs:
       - desktop
@@ -35,21 +34,8 @@ apps:
 
 parts:
   xtiles-snap:
-    plugin: nil
-    source: .
-    build-packages:
-      - curl
-      - build-essential
-      - libnss3-dev
-      - libatk-bridge2.0-dev
-      - libdrm-dev
-      - libxcomposite-dev
-      - libxdamage-dev
-      - libxrandr-dev
-      - libgbm-dev
-      - libxss-dev
-      - libasound2-dev
-      - libgtk-3-dev
+    plugin: dump
+    source: app
     stage-packages:
       - libnss3
       - libatk-bridge2.0-0
@@ -62,51 +48,3 @@ parts:
       - libasound2
       - libatspi2.0-0
       - libgtk-3-0
-    override-build: |
-      # Determine architecture
-      ARCH=$(uname -m)
-      if [ "$ARCH" = "aarch64" ]; then
-        NODE_ARCH="arm64"
-      else
-        NODE_ARCH="x64"
-      fi
-      NODE_VERSION="24.14.0"
-      CACHE_DIR="$SNAPCRAFT_PART_BUILD/../cache"
-      mkdir -p "$CACHE_DIR"
-      NODE_TARBALL="node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.gz"
-      if [ ! -f "$CACHE_DIR/$NODE_TARBALL" ]; then
-        curl --retry 5 -s "https://nodejs.org/dist/v${NODE_VERSION}/$NODE_TARBALL" \
-          -o "$CACHE_DIR/$NODE_TARBALL"
-      fi
-      tar -xzf "$CACHE_DIR/$NODE_TARBALL" -C /usr/local --strip-components=1
-
-      # Skip downloading the Electron binary during dependency installation
-      # (the binary is blocked by the build proxy; electron-builder downloads it separately)
-      export ELECTRON_SKIP_BINARY_DOWNLOAD=1
-
-      # Enable the pinned package manager declared in package.json
-      corepack enable
-      pnpm --version
-
-      # Install dependencies (including devDependencies)
-      pnpm install --frozen-lockfile
-
-      # Compile the TypeScript Electron entrypoint
-      pnpm run build
-
-      # Build the unpacked Electron app directory
-      # (use --linux dir instead of --linux snap: we're already inside snapcraft,
-      # which will handle the final snap packaging; nested snap builds fail here)
-      pnpm exec electron-builder --linux dir
-
-      # Stage the unpacked app
-      mkdir -p "$SNAPCRAFT_PART_INSTALL"
-      cp -r release/linux-*unpacked/* "$SNAPCRAFT_PART_INSTALL/"
-      mkdir -p "$SNAPCRAFT_PART_INSTALL/usr/share/pixmaps"
-      cp build/icons/icon.png "$SNAPCRAFT_PART_INSTALL/usr/share/pixmaps/xtiles-snap.png"
-
-      mkdir -p "$SNAPCRAFT_PART_INSTALL/usr/share/applications"
-      cp xtiles-snap.desktop "$SNAPCRAFT_PART_INSTALL/usr/share/applications/"
-    organize:
-      "resources/app.asar": "resources/app.asar"
-      "xtiles-snap": "xtiles-snap"
