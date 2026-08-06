@@ -13,7 +13,6 @@ architectures:
 apps:
   xtiles-snap:
     command: xtiles-snap --no-sandbox
-    desktop: usr/share/applications/xtiles-snap.desktop
     plugs:
       - desktop
       - desktop-legacy
