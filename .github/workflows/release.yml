@@ -61,7 +61,6 @@ jobs:
           echo "/usr/local/bin" >> "$GITHUB_PATH"
           export PATH="/usr/local/bin:$PATH"
           command -v snapcraft
-          snapcraft --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -239,7 +238,6 @@ jobs:
           echo "/usr/local/bin" >> "$GITHUB_PATH"
           export PATH="/usr/local/bin:$PATH"
           command -v snapcraft
-          snapcraft --version
 
       - name: Upload Snap packages
         run: snapcraft upload release/*.snap --release stable
