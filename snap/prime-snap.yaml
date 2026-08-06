@@ -9,7 +9,6 @@ grade: stable
 confinement: strict
 architectures:
   - __ARCH__
-icon: meta/gui/icon.png
 
 apps:
   xtiles-snap:
