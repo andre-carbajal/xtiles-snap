@@ -78,11 +78,14 @@
       "category": "public.app-category.utilities",
       "notarize": false
     },
-    "snap": {
-      "confinement": "strict",
-      "grade": "stable",
-      "summary": "xTiles application for Linux",
-      "description": "Unofficial xTiles application for Linux"
+    "snapcraft": {
+      "base": "core22",
+      "core22": {
+        "confinement": "strict",
+        "grade": "stable",
+        "summary": "xTiles application for Linux",
+        "description": "Unofficial xTiles application for Linux"
+      }
     },
     "files": [
       "dist/main/**/*",
