@@ -13,25 +13,40 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10.33.0
+
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: 'npm'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Type checking
+        run: pnpm run typecheck
 
       - name: Linting (ESLint)
-        run: npm run lint
+        run: pnpm run lint
+
+      - name: Build application
+        run: pnpm run build
+
+      - name: Dependency audit
+        run: pnpm audit --audit-level high
 
       - name: Build Test (DEB)
-        run: npx electron-builder --linux deb --x64 --publish never
+        run: pnpm exec electron-builder --linux deb --x64 --publish never
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: pnpm exec playwright install --with-deps
 
       - name: Run Smoke Tests
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test

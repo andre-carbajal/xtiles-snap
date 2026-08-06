@@ -16,17 +16,17 @@ Here are the scripts available in our `package.json` file:
 
 - `start`: Start the application.
 ```
-npm run start
+pnpm run start
 ```
 
 - `snap`: Create a snap package of the application.
 ```
-npm run snap
+pnpm run snap
 ```
 
 - `deb`: Create a deb package of the application.
 ```
-npm run deb
+pnpm run deb
 ```
 
 # Installation
@@ -41,9 +41,18 @@ cd xtiles-snap
 ```
 Install the project dependencies:
 ```
-npm install
+pnpm install
 ```
 Finally, you can start the application with:
 ```
-npm run start
+pnpm run start
+```
+
+For a clean development setup, use the lockfile and run the checks directly:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm run typecheck
+pnpm run lint
+pnpm test
 ```

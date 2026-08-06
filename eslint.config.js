@@ -1,9 +1,16 @@
 const globals = require("globals");
 const pluginJs = require("@eslint/js");
+const tseslint = require("typescript-eslint");
 
 /** @type {import('eslint').Linter.Config[]} */
 module.exports = [
   {
+    ignores: ["dist/**", "node_modules/**", "test-results/**", "playwright-report/**"],
+  },
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    files: ["**/*.js", "**/*.ts"],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -13,12 +20,15 @@ module.exports = [
       ecmaVersion: "latest",
       sourceType: "commonjs",
     },
-  },
-  pluginJs.configs.recommended,
-  {
     rules: {
       "no-unused-vars": "warn",
       "no-console": "off",
+    },
+  },
+  {
+    files: ["eslint.config.js"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
 ];

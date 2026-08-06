@@ -31,6 +31,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10.33.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
       - name: Optimize System
         run: |
           sudo apt-get update -yq
@@ -46,12 +58,15 @@ jobs:
           done
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm run build
 
       - name: Build Snap and DEB (${{ matrix.arch }})
         run: |
-          npx electron-builder --linux snap --${{ matrix.arch }} --publish never
-          npx electron-builder --linux deb --${{ matrix.arch }} --publish never
+          pnpm exec electron-builder --linux snap --${{ matrix.arch }} --publish never
+          pnpm exec electron-builder --linux deb --${{ matrix.arch }} --publish never
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SNAPCRAFT_BUILD_ENVIRONMENT: host
@@ -69,7 +84,7 @@ jobs:
 
       - name: Upload to Snap Store
         run: |
-          snapcraft upload dist/*.snap --release stable
+          snapcraft upload release/*.snap --release stable
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
 
@@ -78,7 +93,7 @@ jobs:
         with:
           body_path: release_notes.md
           files: |
-            dist/*.deb
-            dist/*.snap
+            release/*.deb
+            release/*.snap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

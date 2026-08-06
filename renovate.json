@@ -13,6 +13,11 @@
   "github-actions": {
     "enabled": true
   },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "automerge": false,
+    "schedule": ["at any time"]
+  },
   "packageRules": [
     {
       "description": "Group all development dependencies together",
@@ -45,6 +50,13 @@
         "/@playwright/test/",
         "/globals/"
       ]
+    },
+    {
+      "description": "Keep vulnerability updates separate and high priority",
+      "matchVulnerabilityAlerts": true,
+      "groupName": "Security updates",
+      "automerge": false,
+      "prPriority": 10
     }
   ]
 }

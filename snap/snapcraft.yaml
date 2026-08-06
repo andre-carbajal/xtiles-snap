@@ -80,21 +80,28 @@ parts:
       fi
       tar -xzf "$CACHE_DIR/$NODE_TARBALL" -C /usr/local --strip-components=1
 
-      # Skip downloading the Electron binary during npm install
+      # Skip downloading the Electron binary during dependency installation
       # (the binary is blocked by the build proxy; electron-builder downloads it separately)
       export ELECTRON_SKIP_BINARY_DOWNLOAD=1
 
+      # Enable the pinned package manager declared in package.json
+      corepack enable
+      pnpm --version
+
       # Install dependencies (including devDependencies)
-      npm install
+      pnpm install --frozen-lockfile
+
+      # Compile the TypeScript Electron entrypoint
+      pnpm run build
 
       # Build the unpacked Electron app directory
       # (use --linux dir instead of --linux snap: we're already inside snapcraft,
       # which will handle the final snap packaging; nested snap builds fail here)
-      npx electron-builder --linux dir
+      pnpm exec electron-builder --linux dir
 
       # Stage the unpacked app
       mkdir -p "$SNAPCRAFT_PART_INSTALL"
-      cp -r dist/linux-*unpacked/* "$SNAPCRAFT_PART_INSTALL/"
+      cp -r release/linux-*unpacked/* "$SNAPCRAFT_PART_INSTALL/"
       mkdir -p "$SNAPCRAFT_PART_INSTALL/usr/share/pixmaps"
       cp build/icons/icon.png "$SNAPCRAFT_PART_INSTALL/usr/share/pixmaps/xtiles-snap.png"
 
