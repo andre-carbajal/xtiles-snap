@@ -1,0 +1,32 @@
+name: xtiles-snap
+base: core22
+version: "__VERSION__"
+summary: xTiles application for Linux
+description: |
+  Unofficial xTiles application for Linux
+
+grade: stable
+confinement: strict
+architectures:
+  - __ARCH__
+icon: meta/gui/icon.png
+
+apps:
+  xtiles-snap:
+    command: xtiles-snap --no-sandbox
+    desktop: usr/share/applications/xtiles-snap.desktop
+    plugs:
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+      - unity7
+      - browser-support
+      - network
+      - gsettings
+      - audio-playback
+      - audio-record
+      - camera
+      - home
+      - removable-media
+      - opengl
