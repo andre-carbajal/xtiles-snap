@@ -58,6 +58,9 @@ jobs:
       - name: Configure Snapcraft compatibility
         run: |
           sudo install -m 0755 scripts/snapcraft-compat.sh /usr/local/bin/snapcraft
+          echo "/usr/local/bin" >> "$GITHUB_PATH"
+          export PATH="/usr/local/bin:$PATH"
+          command -v snapcraft
           snapcraft --version
 
       - name: Install dependencies
@@ -72,6 +75,7 @@ jobs:
 
       - name: Build Snap and DEB (${{ matrix.arch }})
         run: |
+          command -v snapcraft
           pnpm exec electron-builder --linux snap --${{ matrix.arch }} --publish never
           pnpm exec electron-builder --linux deb --${{ matrix.arch }} --publish never
         env:
@@ -231,6 +235,9 @@ jobs:
       - name: Configure Snapcraft compatibility
         run: |
           sudo install -m 0755 scripts/snapcraft-compat.sh /usr/local/bin/snapcraft
+          echo "/usr/local/bin" >> "$GITHUB_PATH"
+          export PATH="/usr/local/bin:$PATH"
+          command -v snapcraft
           snapcraft --version
 
       - name: Upload Snap packages
