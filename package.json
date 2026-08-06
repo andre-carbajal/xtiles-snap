@@ -1,7 +1,7 @@
 {
   "name": "xtiles-snap",
   "version": "1.0.9",
-  "description": "xTiles application for Linux",
+  "description": "xTiles desktop application",
   "packageManager": "pnpm@10.33.0",
   "main": "dist/main/index.js",
   "scripts": {
@@ -10,8 +10,10 @@
     "start": "pnpm run build && electron .",
     "lint": "eslint .",
     "test": "pnpm run build && playwright test",
-    "snap": "pnpm run build && electron-builder --linux snap",
-    "deb": "pnpm run build && electron-builder --linux deb"
+    "snap": "pnpm run build && pnpm exec electron-builder --linux snap",
+    "deb": "pnpm run build && pnpm exec electron-builder --linux deb",
+    "win": "pnpm run build && pnpm exec electron-builder --win nsis --x64",
+    "mac": "pnpm run build && pnpm exec electron-builder --mac dmg --x64 --arm64"
   },
   "build": {
     "productName": "xTiles",
@@ -37,6 +39,44 @@
         }
       ],
       "category": "Utility"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icons/icon.ico",
+      "forceCodeSigning": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "build/icons/icon.icns",
+      "category": "public.app-category.utilities",
+      "notarize": false
     },
     "snap": {
       "confinement": "strict",
