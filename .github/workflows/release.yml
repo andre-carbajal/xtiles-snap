@@ -240,7 +240,11 @@ jobs:
           command -v snapcraft
 
       - name: Upload Snap packages
-        run: cd release && snapcraft upload *.snap --release stable
+        run: |
+          cd release
+          for snap in *.snap; do
+            snapcraft upload "$snap" --release=stable
+          done
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
 
