@@ -16,6 +16,7 @@
   "vulnerabilityAlerts": {
     "enabled": true,
     "automerge": false,
+    "groupName": "Security updates",
     "schedule": ["at any time"]
   },
   "packageRules": [
@@ -50,13 +51,6 @@
         "/@playwright/test/",
         "/globals/"
       ]
-    },
-    {
-      "description": "Keep vulnerability updates separate and high priority",
-      "matchVulnerabilityAlerts": true,
-      "groupName": "Security updates",
-      "automerge": false,
-      "prPriority": 10
     }
   ]
 }
