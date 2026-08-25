@@ -2,7 +2,7 @@
   "name": "xtiles-snap",
   "version": "1.0.10",
   "description": "xTiles desktop application",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@11.24.0",
   "main": "dist/main/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
