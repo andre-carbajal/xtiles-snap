@@ -119,7 +119,7 @@
     "eslint": "^10.0.3",
     "globals": "^17.4.0",
     "playwright": "^1.58.2",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.0",
     "typescript-eslint": "^8.66.0"
   }
 }
