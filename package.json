@@ -1,105 +1,31 @@
 {
   "name": "xtiles-snap",
-  "version": "1.0.10",
-  "description": "xTiles desktop application",
+  "version": "2.0.0",
+  "description": "xTiles desktop application powered by Tauri",
   "packageManager": "pnpm@11.24.0",
-  "main": "dist/main/index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.tests.json --noEmit",
-    "start": "pnpm run build && electron .",
-    "lint": "eslint .",
-    "test": "pnpm run build && playwright test",
-    "snap": "pnpm run build && pnpm exec electron-builder --linux snap",
-    "deb": "pnpm run build && pnpm exec electron-builder --linux deb",
-    "win": "pnpm run build && pnpm exec electron-builder --win nsis --x64",
-    "mac": "pnpm run build && pnpm exec electron-builder --mac dmg --x64 --arm64"
-  },
-  "build": {
-    "productName": "xTiles",
-    "appId": "com.xtiles.snap",
-    "directories": {
-      "output": "release"
-    },
-    "linux": {
-      "target": [
-        {
-          "target": "snap",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        },
-        {
-          "target": "deb",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        }
-      ],
-      "category": "Utility"
-    },
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ],
-      "icon": "build/icons/icon.ico",
-      "forceCodeSigning": false
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
-    },
-    "mac": {
-      "target": [
-        {
-          "target": "dmg",
-          "arch": [
-            "x64"
-          ]
-        },
-        {
-          "target": "dmg",
-          "arch": [
-            "arm64"
-          ]
-        }
-      ],
-      "icon": "build/icons/icon.icns",
-      "category": "public.app-category.utilities",
-      "notarize": false
-    },
-    "snapcraft": {
-      "base": "core22",
-      "core22": {
-        "confinement": "strict",
-        "grade": "stable",
-        "summary": "xTiles application for Linux",
-        "description": "Unofficial xTiles application for Linux"
-      }
-    },
-    "files": [
-      "dist/main/**/*",
-      "build/**/*",
-      "package.json"
-    ]
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "build:app": "tauri build --debug --no-bundle",
+    "typecheck": "cargo check --manifest-path src-tauri/Cargo.toml --all-targets",
+    "lint": "cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --all-features -- -D warnings",
+    "linux": "tauri build --bundles appimage,deb,rpm",
+    "deb": "tauri build --bundles deb",
+    "rpm": "tauri build --bundles rpm",
+    "appimage": "tauri build --bundles appimage",
+    "win": "tauri build --bundles nsis --target x86_64-pc-windows-msvc --no-sign",
+    "mac:x64": "tauri build --bundles dmg --target x86_64-apple-darwin --no-sign",
+    "mac:arm64": "tauri build --bundles dmg --target aarch64-apple-darwin --no-sign"
   },
   "keywords": [
     "xtiles",
-    "electron",
+    "tauri",
     "linux",
+    "appimage",
     "deb",
-    "snap",
-    "snapcraft"
+    "rpm",
+    "snap"
   ],
   "author": {
     "name": "Andre Carbajal Vargas",
@@ -111,15 +37,6 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.58.2",
-    "@types/node": "^26.1.2",
-    "electron": "^43.0.0",
-    "electron-builder": "^26.8.1",
-    "eslint": "^10.0.3",
-    "globals": "^17.4.0",
-    "playwright": "^1.58.2",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.66.0"
+    "@tauri-apps/cli": "2.11.4"
   }
 }

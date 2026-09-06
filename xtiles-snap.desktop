@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=xTiles
-Comment=xTiles application for Linux
+Comment=Unofficial xTiles desktop application
 Exec=xtiles-snap
 Icon=xtiles-snap
 Type=Application
