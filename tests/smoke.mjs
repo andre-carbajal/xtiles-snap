@@ -30,7 +30,7 @@ try {
 
   await driver.wait(async () => {
     const [title, url] = await Promise.all([driver.getTitle(), driver.getCurrentUrl()]);
-    return title.length > 0 && /^https:\/\/xtiles\.app\/user\/login/.test(url);
+    return title.length > 0 && url.startsWith("https://xtiles.app/user/login");
   }, 30000);
   assert.match(await driver.getTitle(), /.+/);
   assert.match(await driver.getCurrentUrl(), /^https:\/\/xtiles\.app\/user\/login/);
