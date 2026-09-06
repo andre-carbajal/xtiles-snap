@@ -21,36 +21,10 @@
   },
   "packageRules": [
     {
-      "description": "Group all development dependencies together",
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "matchUpdateTypes": [
-        "patch",
-        "minor"
-      ],
+      "description": "Group non-major development dependency updates",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
       "groupName": "Development dependencies (non-major)"
-    },
-    {
-      "description": "Group Electron updates into a single Pull Request",
-      "groupName": "Electron updates",
-      "matchPackageNames": [
-        "/^electron/"
-      ]
-    },
-    {
-      "description": "Automerge minor and patch updates for non-critical tools",
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true,
-      "matchPackageNames": [
-        "/eslint/",
-        "/playwright/",
-        "/@playwright/test/",
-        "/globals/"
-      ]
     }
   ]
 }

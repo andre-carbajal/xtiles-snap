@@ -1,12 +1,16 @@
-# Dependencies
+# Dependencies and Rust build outputs
 node_modules/
-
-# Build outputs
-dist/
+src-tauri/target/
+src-tauri/gen/
 release/
-build/linux-unpacked/
+
+# Packages
+*.AppImage
 *.deb
+*.rpm
 *.snap
+*.exe
+*.dmg
 
 # Logs
 npm-debug.log*
@@ -30,8 +34,3 @@ Thumbs.db
 .idea/
 *.sublime-project
 *.sublime-workspace
-
-# Testing
-test-results/
-playwright-report/
-blob-report/

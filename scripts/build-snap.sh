@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ARCH="${1:?Usage: build-snap.sh <x64|arm64>}"
+ARCH="${1:?Usage: build-snap.sh <x64|arm64> [bundle-dir]}"
+BUNDLE_DIR="${2:-src-tauri/target/release/bundle}"
+
 case "$ARCH" in
   x64) SNAP_ARCH="amd64" ;;
   arm64) SNAP_ARCH="arm64" ;;
@@ -10,30 +12,31 @@ esac
 
 VERSION="$(node -p "require('./package.json').version")"
 PROJECT_DIR="release/snap-${ARCH}"
-PRIME_DIR="${PROJECT_DIR}/prime"
-if [[ "$ARCH" == "x64" ]]; then
-  UNPACKED_DIR="linux-unpacked"
-else
-  UNPACKED_DIR="linux-${ARCH}-unpacked"
-fi
+APP_DIR="${PROJECT_DIR}/app"
 OUTPUT="../xtiles-snap_${VERSION}_${ARCH}.snap"
+DEB_PATH="$(find "$BUNDLE_DIR/deb" -maxdepth 1 -type f -name '*.deb' -print -quit)"
+
+if [[ -z "$DEB_PATH" ]]; then
+  echo "No Tauri DEB found in $BUNDLE_DIR/deb" >&2
+  exit 1
+fi
 
 rm -rf "$PROJECT_DIR"
-mkdir -p "$PRIME_DIR/meta/gui"
+mkdir -p "$APP_DIR" "$PROJECT_DIR/snap/gui"
+dpkg-deb -x "$DEB_PATH" "$APP_DIR"
 
-mkdir -p "release/${UNPACKED_DIR}/usr/share/applications"
-mkdir -p "release/${UNPACKED_DIR}/usr/share/pixmaps"
-cp xtiles-snap.desktop "release/${UNPACKED_DIR}/usr/share/applications/xtiles-snap.desktop"
-cp build/icons/icon.png "release/${UNPACKED_DIR}/usr/share/pixmaps/xtiles-snap.png"
-cp -a "release/${UNPACKED_DIR}/." "$PRIME_DIR/"
-cp build/icons/icon.png "$PRIME_DIR/meta/gui/icon.png"
-cp snap/prime-snap.yaml "$PRIME_DIR/meta/snap.yaml"
+mkdir -p "$APP_DIR/usr/share/applications" "$APP_DIR/usr/share/pixmaps"
+cp xtiles-snap.desktop "$APP_DIR/usr/share/applications/xtiles-snap.desktop"
+cp src-tauri/icons/icon.png "$APP_DIR/usr/share/pixmaps/xtiles-snap.png"
+cp snap/gui/icon.png "$PROJECT_DIR/snap/gui/icon.png"
+cp snap/snapcraft.yaml "$PROJECT_DIR/snapcraft.yaml"
 
 sed -i \
   -e "s|__VERSION__|${VERSION}|g" \
   -e "s|__ARCH__|${SNAP_ARCH}|g" \
-  "$PRIME_DIR/meta/snap.yaml"
+  "$PROJECT_DIR/snapcraft.yaml"
 
 pushd "$PROJECT_DIR" >/dev/null
-snapcraft pack --output "$OUTPUT" prime
+snapcraft prime --destructive-mode
+snapcraft pack --destructive-mode --output "$OUTPUT" prime
 popd >/dev/null
