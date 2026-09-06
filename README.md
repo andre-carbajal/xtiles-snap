@@ -57,7 +57,6 @@ pnpm dev
 - `pnpm dev`: inicia la aplicación Tauri en modo desarrollo.
 - `pnpm run typecheck`: comprueba el proyecto Rust.
 - `pnpm run lint`: ejecuta Clippy con warnings como errores.
-- `pnpm test`: compila la aplicación sin bundle y ejecuta el smoke test WebDriver.
 - `pnpm run build`: genera los bundles Tauri de la plataforma actual.
 - `pnpm run linux`: genera AppImage, DEB y RPM.
 - `pnpm run appimage`, `pnpm run deb`, `pnpm run rpm`: genera un bundle Linux específico.
@@ -73,5 +72,4 @@ pnpm run typecheck
 pnpm run lint
 cargo test --manifest-path src-tauri/Cargo.toml --all-targets
 pnpm audit --audit-level high
-pnpm test
 ```

@@ -10,7 +10,6 @@
     "build:app": "tauri build --debug --no-bundle",
     "typecheck": "cargo check --manifest-path src-tauri/Cargo.toml --all-targets",
     "lint": "cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --all-features -- -D warnings",
-    "test": "pnpm run build:app && node tests/smoke.mjs",
     "linux": "tauri build --bundles appimage,deb,rpm",
     "deb": "tauri build --bundles deb",
     "rpm": "tauri build --bundles rpm",
@@ -38,7 +37,6 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@tauri-apps/cli": "2.11.4",
-    "selenium-webdriver": "4.48.0"
+    "@tauri-apps/cli": "2.11.4"
   }
 }

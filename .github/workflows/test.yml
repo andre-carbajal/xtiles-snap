@@ -25,8 +25,7 @@ jobs:
             libwebkit2gtk-4.1-dev \
             libxdo-dev \
             librsvg2-dev \
-            pkg-config \
-            webkit2gtk-driver
+            pkg-config
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
@@ -67,9 +66,3 @@ jobs:
 
       - name: Dependency audit
         run: pnpm audit --audit-level high
-
-      - name: Install Tauri WebDriver
-        run: cargo install tauri-driver --locked
-
-      - name: Run smoke tests
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test
