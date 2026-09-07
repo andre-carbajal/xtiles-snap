@@ -40,3 +40,4 @@ pushd "$PROJECT_DIR" >/dev/null
 snapcraft prime --destructive-mode
 snapcraft pack --destructive-mode --output "$OUTPUT" prime
 popd >/dev/null
+rm -rf "$PROJECT_DIR"

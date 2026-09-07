@@ -3,6 +3,7 @@
 ## [2.0.1]
 - Fixed Linux ARM64 packaging by installing the host `xdg-open` dependency.
 - Updated the core24 Snapcraft metadata for Snapcraft 9.
+- Removed the temporary Snapcraft staging directory before artifact upload.
 - Limited macOS distribution to the ARM64 DMG.
 
 ## [2.0.0]
