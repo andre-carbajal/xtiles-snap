@@ -30,10 +30,8 @@ de seguridad antes de permitir la instalación.
 
 ### macOS
 
-Descarga el `.dmg` correspondiente a tu equipo:
-
-- `x64`: Mac Intel.
-- `arm64`: Apple Silicon.
+Descarga el `.dmg` para Apple Silicon (`arm64`) desde
+[Releases](https://github.com/andre-carbajal/xtiles-snap/releases).
 
 Abre el DMG y arrastra xTiles a Applications. Los instaladores no están
 notarizados; macOS puede requerir confirmar la apertura desde Finder con clic
@@ -61,7 +59,7 @@ pnpm dev
 - `pnpm run linux`: genera AppImage, DEB y RPM.
 - `pnpm run appimage`, `pnpm run deb`, `pnpm run rpm`: genera un bundle Linux específico.
 - `pnpm run win`: genera el instalador NSIS x64.
-- `pnpm run mac:x64`, `pnpm run mac:arm64`: genera el DMG de macOS indicado.
+- `pnpm run mac:arm64`: genera el DMG de macOS para Apple Silicon.
 
 Para una validación completa desde un checkout limpio:
 

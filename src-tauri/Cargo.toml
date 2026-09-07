@@ -1,6 +1,6 @@
 [package]
 name = "xtiles-snap"
-version = "2.0.0"
+version = "2.0.1"
 description = "xTiles desktop application powered by Tauri"
 authors = ["Andre Carbajal Vargas <carbajalvargasandre@gmail.com>"]
 edition = "2021"

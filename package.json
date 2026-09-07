@@ -1,6 +1,6 @@
 {
   "name": "xtiles-snap",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "xTiles desktop application powered by Tauri",
   "packageManager": "pnpm@11.24.0",
   "scripts": {
@@ -15,7 +15,6 @@
     "rpm": "tauri build --bundles rpm",
     "appimage": "tauri build --bundles appimage",
     "win": "tauri build --bundles nsis --target x86_64-pc-windows-msvc --no-sign",
-    "mac:x64": "tauri build --bundles dmg --target x86_64-apple-darwin --no-sign",
     "mac:arm64": "tauri build --bundles dmg --target aarch64-apple-darwin --no-sign"
   },
   "keywords": [

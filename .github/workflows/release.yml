@@ -44,7 +44,8 @@ jobs:
             libxdo-dev \
             pkg-config \
             rpm \
-            snapd
+            snapd \
+            xdg-utils
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
@@ -173,9 +174,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - arch: x64
-            target: x86_64-apple-darwin
-            os: macos-13
           - arch: arm64
             target: aarch64-apple-darwin
             os: macos-14
@@ -265,7 +263,7 @@ jobs:
           test "$(find release -maxdepth 1 -type f -name '*.rpm' | wc -l)" -eq 2
           test "$(find release -maxdepth 1 -type f -name '*.snap' | wc -l)" -eq 2
           test "$(find release -maxdepth 1 -type f -name '*.exe' | wc -l)" -eq 1
-          test "$(find release -maxdepth 1 -type f -name '*.dmg' | wc -l)" -eq 2
+          test "$(find release -maxdepth 1 -type f -name '*.dmg' | wc -l)" -eq 1
 
       - name: Extract release notes
         run: |

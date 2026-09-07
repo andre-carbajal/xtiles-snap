@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1]
+- Fixed Linux ARM64 packaging by installing the host `xdg-open` dependency.
+- Limited macOS distribution to the ARM64 DMG.
+
 ## [2.0.0]
 - Replaced Electron with a Tauri 2 desktop wrapper.
 - Added AppImage, DEB, RPM, Snap, Windows NSIS, and macOS DMG release bundles.
