@@ -9,8 +9,9 @@ grade: stable
 confinement: strict
 icon: snap/gui/icon.png
 
-architectures:
-  - build-on: __ARCH__
+platforms:
+  __ARCH__:
+    build-on: __ARCH__
     build-for: __ARCH__
 
 apps:
