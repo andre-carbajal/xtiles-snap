@@ -2,7 +2,7 @@
   "name": "xtiles-snap",
   "version": "2.0.1",
   "description": "xTiles desktop application powered by Tauri",
-  "packageManager": "pnpm@11.24.0",
+  "packageManager": "pnpm@12.4.2",
   "scripts": {
     "tauri": "tauri",
     "dev": "tauri dev",
