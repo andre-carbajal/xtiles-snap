@@ -20,6 +20,10 @@ sudo snap install xtiles-snap
 También puedes descargar el paquete `.deb`, `.rpm` o `.AppImage` correspondiente
 a tu arquitectura desde [Releases](https://github.com/andre-carbajal/xtiles-snap/releases).
 
+Para abrir enlaces externos desde el AppImage, el sistema debe proporcionar
+`xdg-open` (normalmente incluido en `xdg-utils`). En Debian o Ubuntu, instálalo
+con `sudo apt install xdg-utils`.
+
 ### Windows
 
 Descarga el instalador NSIS `.exe` x64 desde
