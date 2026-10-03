@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.2]
+- Updated Tauri CLI to 2.12.1 and refreshed Tauri, Rust, and pnpm dependencies.
+- Documented the `xdg-open`/`xdg-utils` requirement for opening external links from AppImage.
+
 ## [2.0.1]
 - Fixed Linux ARM64 packaging by installing the host `xdg-open` dependency.
 - Updated the core24 Snapcraft metadata for Snapcraft 9.
